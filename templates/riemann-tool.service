@@ -1,0 +1,22 @@
+# /usr/lib/systemd/system/{{ item.name }}.service
+[Unit]
+Description={{ item.description }}
+
+[Service]
+User=riemann-agent
+WorkingDirectory=/home/riemann-agent
+ExecStart=/usr/local/bin/{{ item.name }} {% if item.args is defined %}
+{% for key, value in item.args.iteritems() %}
+ --{{ key }}{% if value %}={{ value }}{% endif %}
+{% endfor %}
+{% endif %}
+
+Restart=always
+StandardInput=null
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

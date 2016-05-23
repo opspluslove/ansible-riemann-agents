@@ -1,0 +1,4 @@
+---
+- name: restart riemann agents
+  service: name={{ item.name }} state=restarted
+  with_items: "{{ riemann_tools_in_use }}"

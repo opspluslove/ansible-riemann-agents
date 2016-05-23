@@ -1,0 +1,43 @@
+---
+- name: Create group riemann-agent
+  group:
+    name: riemann-agent
+    state: present
+    system: yes
+
+- name: Create user riemann-agent
+  user:
+    name: riemann-agent
+    group: riemann-agent
+    system: yes
+
+- name: Install riemann-tools dependencies
+  apt: name=rubygems state=present
+
+- name: Install riemann-tools
+  command: gem install riemann-tools
+  args:
+    creates: /usr/local/bin/riemann-health
+  notify: restart riemann agents
+
+- name: Ensure systemd directory for unit files exists
+  file:
+    state: directory
+    path: /usr/lib/systemd/system
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy systemd unit files for riemann-tools
+  template:
+    src: riemann-tool.service
+    dest: /usr/lib/systemd/system/{{ item.name }}.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart riemann agents
+  with_items: "{{ riemann_tools_in_use }}"
+
+- name: Ensure riemann-tools services are started and enabled
+  service: name={{ item.name }} state=started enabled=yes
+  with_items: "{{ riemann_tools_in_use }}"

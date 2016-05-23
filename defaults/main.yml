@@ -1,0 +1,14 @@
+---
+riemann_tools_in_use:
+  - name: riemann-health
+    description: Riemann Health agent
+  - name: riemann-net
+    description: Riemann Network agent
+  - name: riemann-ntp
+    description: Riemann NTP (Network Time) agent
+  - name: riemann-diskstats
+    description: Riemann agent providing disk statistics
+  - name: riemann-nginx-status
+    description: Riemann Nginx Status agent
+  - name: riemann-proc
+    description: Riemann Running Processes agent

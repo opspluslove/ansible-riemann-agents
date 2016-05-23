@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/opspluslove/ansible-riemann-agents.svg?branch=master)](https://travis-ci.org/opspluslove/ansible-riemann-agents)
+
 riemann-agents
 =========
 
